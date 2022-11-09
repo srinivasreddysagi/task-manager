@@ -1,9 +1,12 @@
 import React from "react";
 import "./styles.css";
 import noprofile from "../../assets/profile-default.png";
-// import ToggleButton from "../toggle-button";
+import { useDispatch } from "react-redux";
+import { changeMode, logout, login } from "../../store/features/loginData";
 
-function Navbar({ userLogin, type }) {
+function Navbar({ userLogin, type, username }) {
+    const dispatch = useDispatch();
+
     if (userLogin) {
         return (
             <header className="navbar">
@@ -13,21 +16,24 @@ function Navbar({ userLogin, type }) {
                         alt="default DP"
                         className="navbar__user-dp"
                     />
-                    <h4 className="navbar__user-name">Nivas Reddy</h4>
+                    <h4 className="navbar__user-name">{username}</h4>
                 </div>
 
                 <div className="navbar__modes">
-                    {/* <ToggleButton name="ua" id="ua" toggleA="User" toggleB="Admin"/> */}
                     <button
                         className={
                             type === "Admin"
                                 ? "navbar__modes-ua checked"
                                 : "navbar__modes-ua unchecked"
                         }
+                        onClick={() => dispatch(changeMode())}
                     >
                         {type}
                     </button>
-                    <button className="btn navbar__modes--logout">
+                    <button
+                        className="btn navbar__modes--logout"
+                        onClick={() => dispatch(logout())}
+                    >
                         Logout
                     </button>
                 </div>
@@ -41,7 +47,12 @@ function Navbar({ userLogin, type }) {
                     <span className="navbar__brand-name--second">M</span>anager
                 </h2>
                 <div className="navbar__modes">
-                    <button className="btn navbar__modes--login">Login</button>
+                    <button
+                        className="btn navbar__modes--login"
+                        onClick={() => dispatch(login())}
+                    >
+                        Login
+                    </button>
                 </div>
             </header>
         );
